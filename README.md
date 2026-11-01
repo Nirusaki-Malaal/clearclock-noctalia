@@ -6,7 +6,9 @@
 
 A native [Noctalia](https://noctalia.dev) widget inspired by [qewer33/ClearClock](https://github.com/qewer33/ClearClock).
 
-![ClearClock preview](docs/preview.png)
+![ClearClock on a train wallpaper](docs/screenshot-train.png)
+
+![ClearClock on a black hole wallpaper](docs/screenshot-black-hole.png)
 
 </div>
 

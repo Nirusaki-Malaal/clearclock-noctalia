@@ -24,7 +24,9 @@ For a declarative layout, merge [examples/clearclock.toml](../examples/clearcloc
 
 This repository also includes a source `catalog.toml` and the required `clearclock/` subdirectory, so it can be distributed as a Noctalia plugin source.
 
-![ClearClock rendered in Noctalia](preview.png)
+![ClearClock on a train wallpaper](screenshot-train.png)
+
+![ClearClock on a black hole wallpaper](screenshot-black-hole.png)
 
 ## Options
 
@@ -51,7 +53,7 @@ This checks manifest/catalog consistency, translations, bundled font licenses, N
 
 The installer harness uses temporary directories and mock downloads to verify fresh installs, upgrades, failed downloads, invalid archives, failed lint, activation, symlink protection, and Noctalia/XDG path handling. To fetch a particular revision, set `CLEARCLOCK_REF` when invoking the installer. The default tracks `main`.
 
-The port was also rendered in an isolated nested Niri session running Noctalia v5.4.1, with separate configuration/data/state directories. See [docs/preview.png](preview.png). No changes to your main Noctalia configuration are required by these checks.
+The port was also rendered in an isolated nested Niri session running Noctalia v5.4.1, with separate configuration/data/state directories. The desktop screenshots above were supplied by the user. No changes to your main Noctalia configuration are required by these checks.
 
 ## References and attribution
 
