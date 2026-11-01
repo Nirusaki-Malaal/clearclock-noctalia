@@ -15,6 +15,8 @@ for key in catalog:
     assert manifest[key] == catalog[key], f"catalog mismatch: {key}"
 entry = manifest["desktop_widget"][0]
 assert (plugin / entry["entry"]).is_file()
+for service in manifest.get("service", []):
+    assert (plugin / service["entry"]).is_file()
 translations = json.loads((plugin / "translations/en.json").read_text())
 settings = entry["setting"]
 assert len({s["key"] for s in settings}) == len(settings)
@@ -40,5 +42,6 @@ with tempfile.TemporaryDirectory() as tmp:
     if not lua:
         raise SystemExit("Install Lua 5.4 to run the behavioral harness")
     subprocess.run([lua, str(root / "tests/widget.lua"), str(harness)], check=True)
+    subprocess.run([lua, str(root / "tests/background.lua"), str(harness)], check=True)
 subprocess.run(["noctalia", "plugins", "lint", str(plugin)], check=True)
 print("Manifest, catalog, translation, and font license checks passed")

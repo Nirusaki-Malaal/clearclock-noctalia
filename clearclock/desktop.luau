@@ -57,17 +57,27 @@ function update()
     end
 
     local showDay = noctalia.getConfig("showDayDisplay")
+    -- Retain semantic roles in the UI tree: Noctalia resolves them against the
+    -- current palette, including live changes while the clock is between ticks.
+    local clockColor = noctalia.getConfig("clockFontColor")
+    local dayColor = noctalia.getConfig("dayFontColor")
+    local dateColor = noctalia.getConfig("dateFontColor")
+    if noctalia.getConfig("adaptiveColors") then
+        clockColor = "primary"
+        dayColor = "on_primary"
+        dateColor = "on_surface"
+    end
     local clockSize = noctalia.getConfig("clockFontSize")
     local daySize = noctalia.getConfig("dayFontSize")
     local height = math.ceil(math.max(clockSize, showDay and daySize or 0) * 1.3)
     local layers = {
-        label("clock", clock, clockSize, noctalia.getConfig("clockFontColor"),
+        label("clock", clock, clockSize, clockColor,
             family(noctalia.getConfig("clockFontFamily"), outfit),
             noctalia.getConfig("clockBoldText"), height),
     }
     if showDay then
         table.insert(layers, label("day", format("%A"), daySize,
-            noctalia.getConfig("dayFontColor"),
+            dayColor,
             family(noctalia.getConfig("dayFontFamily"), smooch),
             noctalia.getConfig("dayBoldText"), height))
     end
@@ -80,7 +90,7 @@ function update()
     if noctalia.getConfig("showDateDisplay") then
         local text = string.upper(format(noctalia.getConfig("dateCustomDateFormat")))
         local size = noctalia.getConfig("dateFontSize")
-        local color = noctalia.getConfig("dateFontColor")
+        local color = dateColor
         local font = family(noctalia.getConfig("dateFontFamily"), outfit)
         local bold = noctalia.getConfig("dateBoldText")
         local spacing = noctalia.getConfig("dateLetterSpacing")

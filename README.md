@@ -20,7 +20,7 @@ Requires **Noctalia v5.4.1+**, `curl`, and `tar`.
 curl -fsSL https://raw.githubusercontent.com/Nirusaki-Malaal/clearclock-noctalia/main/install.sh | sh
 ```
 
-Then open **Settings → Desktop → Add widget → ClearClock**. Turn off **Background** for the look above, and use the desktop editor to move and resize it.
+Then open **Settings → Desktop → Add widget → ClearClock** and use the desktop editor to move and resize it. New widgets are transparent by default.
 
 Run the same command to update. The installer works without sudo, respects your Noctalia/XDG data directory, and keeps your settings.
 
@@ -41,11 +41,14 @@ Use `sh install.sh --no-enable` to install files without contacting the running 
 
 - **Time:** 12/24-hour format, optional seconds, and your choice of separator.
 - **Typography:** bundled Outfit and Smooch fonts, custom fonts, sizes, and weights.
-- **Color:** independent colors for the clock, weekday, and date.
+- **Adaptive color:** follow your Noctalia palette automatically, with a contrasting weekday overlay.
+- **Custom color:** turn off **Adaptive colors** to choose independent clock, weekday, and date colors.
 - **Layout:** toggle the weekday or date, adjust spacing, then scale and position freely.
 - **Time zone:** follow your system or choose an IANA zone such as `Asia/Kolkata`.
 
 All options are available in the widget settings. Custom dates use Noctalia tokens, such as `%-d %B %Y` or `%Y-%m-%d`.
+
+To match wallpaper changes, select **Wallpaper** as Noctalia's theme source. Adaptive colors follow that generated palette live. They follow the selected theme when using a built-in or custom palette. Background can be enabled in the widget settings; existing explicit background choices are preserved when updating.
 
 ## More
 

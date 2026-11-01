@@ -19,5 +19,7 @@
   "settings.dateBoldText.label": "Bold date",
   "settings.dateFontSize.label": "Date font size",
   "settings.dateLetterSpacing.label": "Date letter spacing",
-  "settings.dateGap.label": "Gap below clock"
+  "settings.dateGap.label": "Gap below clock",
+  "settings.adaptiveColors.label": "Adaptive colors",
+  "settings.adaptiveColors.description": "Follow the active Noctalia palette. Wallpaper colors follow when using a wallpaper-generated theme. Turn off to use custom colors."
 }

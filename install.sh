@@ -86,4 +86,4 @@ if "$enable"; then
             '  noctalia msg plugins enable nirusaki/clearclock'
     fi
 fi
-printf '\n%s\n' 'Open Settings → Desktop, add ClearClock, and turn off Background.'
+printf '\n%s\n' 'Open Settings → Desktop and add ClearClock. New widgets default to transparent.'

@@ -1,7 +1,7 @@
 id = "nirusaki/clearclock"
 name = "ClearClock"
-version = "1.0.0"
-plugin_api = 19
+version = "1.1.0"
+plugin_api = 26
 author = "Nirusaki; original design by qewer33"
 license = "GPL-3.0-or-later"
 icon = "clock"
@@ -11,6 +11,13 @@ tags = ["clock", "desktop", "date", "typography"]
 [[desktop_widget]]
 id = "desktop"
 entry = "desktop.luau"
+
+[[desktop_widget.setting]]
+key = "adaptiveColors"
+type = "bool"
+label_key = "settings.adaptiveColors.label"
+description_key = "settings.adaptiveColors.description"
+default = true
 
 [[desktop_widget.setting]]
 key = "clockUse24hFormat"
@@ -41,6 +48,7 @@ key = "clockFontColor"
 type = "color"
 label_key = "settings.clockFontColor.label"
 default = "#ffffff"
+visible_when = { key = "adaptiveColors", values = ["false"] }
 
 [[desktop_widget.setting]]
 key = "clockFontFamily"
@@ -73,6 +81,7 @@ key = "dayFontColor"
 type = "color"
 label_key = "settings.dayFontColor.label"
 default = "#5e4573"
+visible_when = { key = "adaptiveColors", values = ["false"] }
 
 [[desktop_widget.setting]]
 key = "dayFontFamily"
@@ -111,6 +120,7 @@ key = "dateFontColor"
 type = "color"
 label_key = "settings.dateFontColor.label"
 default = "#ffffff"
+visible_when = { key = "adaptiveColors", values = ["false"] }
 
 [[desktop_widget.setting]]
 key = "dateFontFamily"
@@ -147,3 +157,7 @@ label_key = "settings.dateGap.label"
 default = -20
 min = -100
 max = 100
+
+[[service]]
+id = "defaults"
+entry = "defaults.luau"
