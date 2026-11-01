@@ -1,75 +1,64 @@
-# ClearClock for Noctalia
+# Development
 
-A native desktop widget port of [qewer33/ClearClock](https://github.com/qewer33/ClearClock): a large Outfit clock, a Smooch weekday written across it, and an uppercase, letter-spaced date. No KDE, Qt, external clock process, or polling subprocess is needed.
+ClearClock targets Noctalia v5.4.1 and Luau plugin API 31. Python 3 and Pillow 9.2+ render wallpaper gradients and glass effects. Solid mode stays native to Noctalia.
 
-Targets **Noctalia v5.4.1**, using Luau plugin API 26 for configuration reads and safe argument-array IPC. This is a desktop widget for the v5 shell.
-
-## Install
-
-From this repository's root:
+## Local install
 
 ```sh
 plugin_dir="${NOCTALIA_DATA_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}}/noctalia/plugins/clearclock"
 mkdir -p "$plugin_dir"
 cp -R clearclock/. "$plugin_dir/"
 noctalia msg config-reload
+noctalia msg plugins disable nirusaki/clearclock
 noctalia msg plugins enable nirusaki/clearclock
 ```
 
-If you set `NOCTALIA_DATA_HOME`, use `$NOCTALIA_DATA_HOME/noctalia/plugins` instead. For development, symlink `clearclock/` into that plugins directory; Luau edits hot-reload automatically. Reload the configuration after manifest edits.
+After an atomic directory replacement, restart the plugin explicitly. Reloading configuration and enabling an already enabled plugin can leave an existing desktop runtime on old code. The curl installer performs the disable/enable cycle for updates.
 
-Open **Settings → Desktop**, add **ClearClock**, and use the editor to position and resize it. Each saved instance defaults to transparent and has its own clock, weekday, and date settings.
+For development, symlink `clearclock/` into the plugins directory. Luau module changes hot-reload; restart the plugin after Python renderer edits if a cached request has not otherwise changed.
 
-For a declarative layout, merge [examples/clearclock.toml](../examples/clearclock.toml) into your configuration. Change the output connector to match your monitor. If your existing layout has `widget_order`, append `"clearclock"` to that list; entries absent from the list are ignored. GUI overrides in `settings.toml` take precedence over config files.
+## Rendering modes
 
-This repository also includes a source `catalog.toml` and the required `clearclock/` subdirectory, so it can be distributed as a Noctalia plugin source.
+- **Solid adaptive:** retained `primary`, `on_primary`, and `on_surface` roles repaint with Noctalia's active palette. Disable Wallpaper gradient to select this mode.
+- **Wallpaper gradient:** sample three regions under the clock, blend in a little palette accent, adjust for local luminance, and render a continuous gradient through a high-resolution text mask. Moving or rotating the clock changes the sampled region.
+- **Frosted glass font:** a softened wallpaper fill inside translucent clock digits, with a directional highlight, lower edge, and subtle shadow. The weekday/date stay legible as solid text.
+- **Frosted background:** a separate blurred, tinted, rounded wallpaper crop beneath the whole widget. Its frosting strength is independent of font frosting.
+- **Manual:** disable Adaptive colors to use individual clock, weekday, and date colors. Glass effects remain available.
 
-![ClearClock on a train wallpaper](screenshot-train.png)
+The Python renderer uses the bundled fonts or resolves a custom family with `fc-match`. It renders at 2x resolution and writes PNGs atomically. Each instance uses two alternating files, keeping the cache bounded. Identical requests reuse the current image. Updates are asynchronous, stale results cannot replace a newer mode, and failures fall back to native text with retry backoff. Seconds mode can launch a render every second; minute-only mode avoids this extra work when the content is unchanged.
 
-![ClearClock on a black hole wallpaper](screenshot-black-hole.png)
+## Position and background defaults
 
-## Options
+Noctalia's desktop script API does not expose an instance ID or unsaved editor geometry. The defaults service binds a hidden `renderInstance` setting to each saved widget ID. The renderer then reads that instance's saved position, size, rotation, and output. Changes appear after saving the editor, rather than while dragging an unsaved preview.
 
-- 12/24-hour time, optional seconds, and a literal separator (including an empty separator).
-- Independent clock, weekday, and date colors, font families, sizes, and bold weights.
-- Adaptive colors are enabled by default. Semantic roles (`primary`, `on_primary`, `on_surface`) remain in the retained UI tree, so palette changes repaint live without waiting for the next clock tick. Disable adaptive colors to restore manual colors. These roles follow the active theme, including wallpaper-generated palettes; the widget does not sample local wallpaper brightness or guarantee contrast against every wallpaper pixel.
-- Show/hide the weekday overlay and date; adjust date spacing and the gap below the clock.
-- Date patterns use **strftime/Noctalia tokens**, e.g. `%-d %B %Y`, `%Y-%m-%d`, or `%A, %d %B`. Qt patterns such as `d MMMM yyyy` must be converted.
-- Optional IANA time zone, e.g. `Asia/Kolkata` or `Europe/Berlin`; empty follows system local time. Invalid names follow Noctalia's documented local-time fallback.
+Coordinates use the output's logical dimensions, so fractional display scaling does not change the sampled region. Wallpaper crop, fit, stretch, center, repeat, and span projections are supported. Wallpaper image paths and mtimes participate in cache invalidation.
 
-`ccdefault` or an empty font family selects the bundled fonts. Native theme role colors such as `primary` and `on_surface` also work. The host owns widget placement, scale, rotation, opacity, and background controls. Minute-only clocks use the host's minute-boundary updates; showing seconds requests second-boundary updates. Every label is formatted from one shared timestamp.
+The current implementation samples the configured wallpaper image, not the compositor's live contents. Windows, video wallpapers, compositor effects, and wallpaper transitions are not captured. Contrast is improved from regional samples; highly detailed wallpaper can still benefit from the frosted background. For a mirrored or identity-selected monitor, use an unambiguous output selector.
 
-Noctalia v5.4.1 hard-codes plugin backgrounds to enabled outside the script's UI tree. The `defaults` service checks saved desktop widget configuration every two seconds and supplies `background = false` only to ClearClock instances without an explicit value. It uses a leaf merge through argument-array IPC, preserves other settings and widget types, and backs off after errors. Changes are applied after saving the desktop editor. An explicit background choice is never overwritten. No background setting is declared in the plugin manifest because Noctalia owns that setting and does not honor a plugin-level override of its default.
+Noctalia v5.4.1 hard-codes plugin backgrounds to enabled. Every two seconds the defaults service supplies `background = false` only for ClearClock instances without an explicit background choice. Other widgets, settings, and explicit background choices are preserved. Instance association and background defaults use one leaf merge through argument-array IPC, including quoted widget IDs. Errors back off. The instance association is hidden from normal widget settings.
 
-The current declarative label API has no italic or text-shadow properties, so those Plasma-specific options are omitted. Date spacing is implemented as a row of UTF-8 codepoints; combining marks/complex-script shaping across characters are best preserved by setting spacing to zero. Uppercasing uses Luau's ASCII `string.upper`, so non-ASCII characters retain their case. The weekday/date names follow Noctalia's locale.
+For declarative placement, merge [examples/clearclock.toml](../examples/clearclock.toml) into your configuration. Append its ID to an existing `widget_order`; unlisted IDs are ignored. GUI overrides take precedence over config files.
 
-## Verify
+## Verification
 
-Requires Python 3.11+, Lua 5.4, and Noctalia:
+Requires Python 3.11+, Pillow, Lua 5.4, and Noctalia:
 
 ```sh
 python3 tests/check.py
 python3 tests/installer.py
+python3 tests/rendering.py
 ```
 
-This checks manifest/catalog consistency, translations, bundled font licenses, Noctalia settings lint, and the actual entry script's formatting and UI tree: midnight/noon, day rollover, separators, seconds, visibility, fonts, and UTF-8 dates.
+The checks cover manifest/catalog consistency, translations, settings lint, actual Luau entry behavior, transparent defaults, quoted IDs, asynchronous caching and fallback, installer upgrades and restart order, and pixel-level gradient/glass behavior. Synthetic wallpaper tests move the clock across different colors and verify that gradient stops change, glyphs contain a continuous gradient, and glass modes preserve transparent corners.
 
-The same command also verifies adaptive/manual color roles and the defaults service's preservation of explicit choices, quoted IDs, pending writes, and failure backoff. The 1.1.0 change was rendered in both light and dark palettes in an isolated Noctalia session; live checks verified transparent defaults and persistence of explicit backgrounds.
+The complete flow was also tested in an isolated nested Niri/Noctalia session with separate configuration, data, and state directories, using multiple independently positioned widgets.
 
-The installer harness uses temporary directories and mock downloads to verify fresh installs, upgrades, failed downloads, invalid archives, failed lint, activation, symlink protection, and Noctalia/XDG path handling. To fetch a particular revision, set `CLEARCLOCK_REF` when invoking the installer. The default tracks `main`.
-
-The port was also rendered in an isolated nested Niri session running Noctalia v5.4.1, with separate configuration/data/state directories. The desktop screenshots above were supplied by the user. No changes to your main Noctalia configuration are required by these checks.
-
-## References and attribution
-
-Implementation follows the stable v5.4.1 documentation:
+## References
 
 - [Manifest and settings](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/manifest/)
-- [Declarative UI and desktop widget ticks](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/declarative-ui/)
-- [Runtime API: fonts and time formatting](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/runtime-api/)
-- [Development and distribution workflow](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/workflow/)
-- [Desktop layout configuration](https://docs.noctalia.dev/noctalia/v5.4.1/desktop/widgets/)
+- [Declarative desktop UI](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/declarative-ui/)
+- [Runtime API](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/runtime-api/)
+- [Desktop widget configuration](https://docs.noctalia.dev/noctalia/v5.4.1/desktop/widgets/)
+- [Development and distribution](https://docs.noctalia.dev/noctalia/v5.4.1/plugins/development/workflow/)
 
-Original composition, defaults, and bundled font files come from **qewer33/ClearClock**, revision `fd9e4795d24ab80c45846a634c3c844850674c51`, inspected on 2026-11-01. Its QML declares GPL-3.0-or-later; this port is distributed under the same license. See [LICENSE](../LICENSE).
-
-Outfit is by the Outfit project authors and Smooch by the Smooch project authors. Both are distributed under the SIL Open Font License 1.1; the corresponding notices are included in `clearclock/fonts/`.
+Original composition, defaults, and bundled font files come from [qewer33/ClearClock](https://github.com/qewer33/ClearClock), revision `fd9e4795d24ab80c45846a634c3c844850674c51`. Its QML declares GPL-3.0-or-later; this port uses the same license. [LICENSE](../LICENSE) contains the full text. Outfit and Smooch are distributed under SIL OFL 1.1; notices are in `clearclock/fonts/`.

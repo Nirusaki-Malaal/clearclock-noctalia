@@ -22,8 +22,8 @@ update()
 assert(#calls == 0)
 widgets = {
     other = {type = "clock"},
-    explicit = {type = "nirusaki/clearclock:desktop", settings = {background = true}},
-    transparent = {type = "nirusaki/clearclock:desktop", settings = {background = false}},
+    explicit = {type = "nirusaki/clearclock:desktop", settings = {background = true, renderInstance = "explicit"}},
+    transparent = {type = "nirusaki/clearclock:desktop", settings = {background = false, renderInstance = "transparent"}},
 }
 update()
 assert(#calls == 0, "explicit backgrounds and unrelated widgets must be preserved")
@@ -32,10 +32,10 @@ update()
 assert(#calls == 1)
 assert(calls[1][1] == "noctalia" and calls[1][2] == "msg")
 assert(calls[1][3] == "config-set" and calls[1][4] == "desktop_widgets.widget")
-assert(calls[1][5] == '{ "clock \\"quoted\\".id" = { settings = { background = false } } }')
+assert(calls[1][5] == '{ "clock \\"quoted\\".id" = { settings = { renderInstance = "clock \\"quoted\\".id", background = false } } }')
 update()
 assert(#calls == 1, "do not issue duplicate config writes while one is pending")
-widgets['clock "quoted".id'].settings = {background = false}
+widgets['clock "quoted".id'].settings = {background = false, renderInstance = 'clock "quoted".id'}
 callback({exitCode = 0, stdout = "ok\n", stderr = ""})
 update()
 assert(#calls == 1)

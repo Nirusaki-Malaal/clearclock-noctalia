@@ -16,6 +16,11 @@ rotation = 0.0
 [desktop_widgets.widget.clearclock.settings]
 background = false
 adaptiveColors = true
+adaptiveGradients = true
+frostedFont = false
+frostedGlass = false
+fontGlassStrength = 0.55
+glassStrength = 0.5
 clockUse24hFormat = true
 clockShowSeconds = false
 clockSeparator = "."

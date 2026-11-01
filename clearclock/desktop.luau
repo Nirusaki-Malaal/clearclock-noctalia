@@ -5,6 +5,7 @@
 local outfit = noctalia.loadFont("fonts/Outfit-Regular.ttf") or "sans-serif"
 noctalia.loadFont("fonts/Outfit-Bold.ttf")
 local smooch = noctalia.loadFont("fonts/Smooch-Regular.ttf") or "cursive"
+local wallpaperRenderer = require("./wallpaper.luau")
 
 local function family(configured, fallback)
     if configured == "" or configured == "ccdefault" then
@@ -106,10 +107,35 @@ function update()
             table.insert(children, ui.row({ key = "date", gap = spacing, align = "center" }, letters))
         end
     end
-    desktopWidget.render(ui.column({
+    local tree = ui.column({
         key = "clearclock",
         align = "center",
         gap = noctalia.getConfig("dateGap"),
         padding = 8,
-    }, children))
+    }, children)
+    if (noctalia.getConfig("adaptiveGradients") and noctalia.getConfig("adaptiveColors"))
+        or noctalia.getConfig("frostedGlass") or noctalia.getConfig("frostedFont") then
+        wallpaperRenderer.render({clock = clock, day = showDay and format("%A") or "",
+            date = noctalia.getConfig("showDateDisplay") and
+                string.upper(format(noctalia.getConfig("dateCustomDateFormat"))) or "",
+            settings = {
+                clockFontSize = clockSize, dayFontSize = daySize,
+                dateFontSize = noctalia.getConfig("dateFontSize"),
+                dateGap = noctalia.getConfig("dateGap"),
+                dateLetterSpacing = noctalia.getConfig("dateLetterSpacing"),
+                clockFontFamily = noctalia.getConfig("clockFontFamily"),
+                dayFontFamily = noctalia.getConfig("dayFontFamily"),
+                dateFontFamily = noctalia.getConfig("dateFontFamily"),
+                clockBoldText = noctalia.getConfig("clockBoldText"),
+                dayBoldText = noctalia.getConfig("dayBoldText"),
+                dateBoldText = noctalia.getConfig("dateBoldText"),
+            }, colors = {
+                clock = noctalia.getColor(clockColor) or clockColor,
+                day = noctalia.getColor(dayColor) or dayColor,
+                date = noctalia.getColor(dateColor) or dateColor,
+            }}, tree)
+    else
+        wallpaperRenderer.reset()
+        desktopWidget.render(tree)
+    end
 end

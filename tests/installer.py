@@ -69,6 +69,7 @@ echo ok
     assert not sentinel.exists(), "upgrades must remove obsolete plugin files"
     calls = (work / "calls.log").read_text()
     assert "msg config-reload" in calls and "msg plugins enable nirusaki/clearclock" in calls
+    assert calls.index("msg config-reload") < calls.index("msg plugins disable nirusaki/clearclock") < calls.index("msg plugins enable nirusaki/clearclock"), "upgrades must restart the running plugin to discard stale code"
     assert "automatic activation could not finish" in run(FAIL_ACTIVATION="1").stdout
     run("--bad-option", success=False)
     run("--no-enable", success=False, CLEARCLOCK_REF="../bad")

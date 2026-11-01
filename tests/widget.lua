@@ -3,6 +3,13 @@ local root = arg[1] or "."
 local config, tree, secondTicks, instant, reads
 local defaults = dofile(root .. "/tests/defaults.lua")
 local fonts = 0
+local originalRequire = require
+require = function(path)
+    if path == "./wallpaper.luau" then
+        return assert(loadfile(root .. "/clearclock/wallpaper.luau"))()
+    end
+    return originalRequire(path)
+end
 noctalia = {
     getConfig = function(key)
         assert(config[key] ~= nil, "undeclared setting: " .. key)
@@ -38,6 +45,7 @@ os.time = function() return instant end
 local function render(at, overrides)
     config = {}
     for key, value in pairs(defaults) do config[key] = value end
+    config.adaptiveGradients = false
     for key, value in pairs(overrides or {}) do config[key] = value end
     instant, reads = at, 0
     update()

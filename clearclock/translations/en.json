@@ -21,5 +21,14 @@
   "settings.dateLetterSpacing.label": "Date letter spacing",
   "settings.dateGap.label": "Gap below clock",
   "settings.adaptiveColors.label": "Adaptive colors",
-  "settings.adaptiveColors.description": "Follow the active Noctalia palette. Wallpaper colors follow when using a wallpaper-generated theme. Turn off to use custom colors."
+  "settings.adaptiveColors.description": "Follow the active Noctalia palette. Wallpaper colors follow when using a wallpaper-generated theme. Turn off to use custom colors.",
+  "settings.adaptiveGradients.label": "Wallpaper gradient",
+  "settings.adaptiveGradients.description": "A smooth gradient sampled from the wallpaper beneath the saved clock position. Updates when the wallpaper or placement changes.",
+  "settings.frostedGlass.label": "Frosted background",
+  "settings.frostedGlass.description": "Blur the wallpaper beneath the clock into a translucent rounded card.",
+  "settings.glassStrength.label": "Glass frosting strength",
+  "settings.renderInstance.label": "Wallpaper rendering instance",
+  "settings.frostedFont.label": "Frosted glass font",
+  "settings.frostedFont.description": "Translucent clock digits with a frosted wallpaper fill and polished glass edges. The surrounding desktop stays transparent.",
+  "settings.fontGlassStrength.label": "Font frosting strength"
 }

@@ -4,9 +4,13 @@ A Noctalia v5.4.1+ desktop widget port of [qewer33/ClearClock](https://github.co
 
 Enable `nirusaki/clearclock`, then add **ClearClock** under **Settings → Desktop**. New saved instances default to a transparent background. Drag and scale it in the desktop editor.
 
-**Adaptive colors** is enabled by default: the clock uses the active palette's accent, the weekday uses its contrasting foreground, and the date follows its text color. Wallpaper-derived palettes follow wallpaper changes. Turn adaptive colors off to use the three custom color controls. This follows the active palette rather than sampling the pixels behind the clock.
+**Wallpaper gradient** samples the wallpaper beneath the saved clock position and renders a smooth gradient through the digits. Saving a move, resize, rotation, or wallpaper change refreshes the local colors.
 
-Background defaults only apply when no background choice is saved. Explicit enabled or disabled backgrounds are preserved, including after an update.
+**Frosted glass font** puts a softened wallpaper fill and polished edges inside translucent clock digits. **Frosted background** adds a separate rounded blurred card. Both effects have independent strength controls and can be combined or used separately. Requires Python 3 and Pillow.
+
+Disable the wallpaper gradient to use solid adaptive palette colors. Turn **Adaptive colors** off to use the three manual color controls. The glass effects also work with manual colors.
+
+Background defaults only apply when no background choice is saved. Explicit enabled or disabled backgrounds are preserved, including after an update. Glass effects use the wallpaper image, not windows or live video behind the widget. Placement changes appear after saving the desktop editor.
 
 Per-instance settings cover 12/24-hour time, seconds, separator, IANA time zone, weekday/date visibility, fonts, colors, sizes, bold weights, and date spacing. `ccdefault` selects the bundled fonts. Date patterns use Noctalia/strftime tokens (`%-d %B %Y`), rather than Qt patterns. Empty time zone follows system local time. Invalid zones fall back to local time.
 

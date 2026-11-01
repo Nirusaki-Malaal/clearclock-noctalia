@@ -14,7 +14,7 @@ A native [Noctalia](https://noctalia.dev) widget inspired by [qewer33/ClearClock
 
 ## Install
 
-Requires **Noctalia v5.4.1+**, `curl`, and `tar`.
+Requires **Noctalia v5.4.1+**, `curl`, `tar`, and **Python 3 with Pillow** (`python-pillow` on Arch).
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/Nirusaki-Malaal/clearclock-noctalia/main/install.sh | sh
@@ -41,14 +41,19 @@ Use `sh install.sh --no-enable` to install files without contacting the running 
 
 - **Time:** 12/24-hour format, optional seconds, and your choice of separator.
 - **Typography:** bundled Outfit and Smooch fonts, custom fonts, sizes, and weights.
-- **Adaptive color:** follow your Noctalia palette automatically, with a contrasting weekday overlay.
+- **Wallpaper gradient:** a smooth color gradient sampled beneath the clock's saved position. Move the clock, save the layout, and its gradient adapts to the new region.
+- **Frosted glass font:** translucent digits with a blurred wallpaper fill, fine highlights, and polished edges.
+- **Frosted background:** an optional rounded glass card with adjustable frosting. Use it independently of the glass font.
+- **Adaptive color:** disable the wallpaper gradient to follow Noctalia's solid palette colors.
 - **Custom color:** turn off **Adaptive colors** to choose independent clock, weekday, and date colors.
 - **Layout:** toggle the weekday or date, adjust spacing, then scale and position freely.
 - **Time zone:** follow your system or choose an IANA zone such as `Asia/Kolkata`.
 
 All options are available in the widget settings. Custom dates use Noctalia tokens, such as `%-d %B %Y` or `%Y-%m-%d`.
 
-To match wallpaper changes, select **Wallpaper** as Noctalia's theme source. Adaptive colors follow that generated palette live. They follow the selected theme when using a built-in or custom palette. Background can be enabled in the widget settings; existing explicit background choices are preserved when updating.
+Wallpaper gradients and glass use the local wallpaper image directly, including the clock's position, size, rotation, and wallpaper fill mode. They update after saving a placement change. Enable **Frosted glass font** or **Frosted background** in widget settings to try either effect. The surrounding desktop stays transparent by default.
+
+For solid adaptive colors, select **Wallpaper** as Noctalia's theme source to follow its generated palette. Existing explicit background choices are preserved when updating.
 
 ## More
 

@@ -23,6 +23,11 @@ if "$enable" && ! command -v noctalia >/dev/null 2>&1; then
     printf '%s\n' 'Install Noctalia v5.4.1+ first, or use --no-enable to copy files only.' >&2
     exit 1
 fi
+if "$enable" && ! python3 -c 'from PIL import Image' >/dev/null 2>&1; then
+    printf '%s\n' 'Wallpaper gradients and glass require Python 3 and Pillow.' \
+        'Install python-pillow with your package manager, then run this installer again.' >&2
+    exit 1
+fi
 
 ref=${CLEARCLOCK_REF:-main}
 case "$ref" in
@@ -75,6 +80,7 @@ mv "$staged" "$destination"
 printf '\nInstalled: %s\n' "$destination"
 if "$enable"; then
     if noctalia msg config-reload >"$work/activation.log" 2>&1 \
+        && noctalia msg plugins disable nirusaki/clearclock >>"$work/activation.log" 2>&1 \
         && noctalia msg plugins enable nirusaki/clearclock >>"$work/activation.log" 2>&1 \
         && ! grep -qi '^error:' "$work/activation.log"; then
         printf '%s\n' 'Enabled in Noctalia.'
@@ -83,6 +89,7 @@ if "$enable"; then
         cat "$work/activation.log" >&2
         printf '%s\n' 'Once Noctalia is running, run:' \
             '  noctalia msg config-reload' \
+            '  noctalia msg plugins disable nirusaki/clearclock' \
             '  noctalia msg plugins enable nirusaki/clearclock'
     fi
 fi

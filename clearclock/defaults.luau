@@ -17,11 +17,14 @@ function update()
     end
     local desktop = noctalia.getSetting("desktop_widgets") or {}
     for id, widget in pairs(desktop.widget or {}) do
+        local settings = widget.settings or {}
         if widget.type == "nirusaki/clearclock:desktop"
-            and (widget.settings == nil or widget.settings.background == nil) then
+            and (settings.background == nil or settings.renderInstance ~= id) then
             -- Merge one leaf so other widget settings, order, and placement
             -- survive. Argument arrays avoid interpreting IDs as shell code.
-            local value = "{ " .. tomlKey(id) .. " = { settings = { background = false } } }"
+            local values = "renderInstance = " .. tomlKey(id)
+            if settings.background == nil then values = values .. ", background = false" end
+            local value = "{ " .. tomlKey(id) .. " = { settings = { " .. values .. " } } }"
             pending = true
             local started = noctalia.runAsync({
                 "noctalia", "msg", "config-set", "desktop_widgets.widget", value,

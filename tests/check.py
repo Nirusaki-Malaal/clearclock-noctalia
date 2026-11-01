@@ -43,5 +43,6 @@ with tempfile.TemporaryDirectory() as tmp:
         raise SystemExit("Install Lua 5.4 to run the behavioral harness")
     subprocess.run([lua, str(root / "tests/widget.lua"), str(harness)], check=True)
     subprocess.run([lua, str(root / "tests/background.lua"), str(harness)], check=True)
+    subprocess.run([lua, str(root / "tests/wallpaper.lua"), str(harness)], check=True)
 subprocess.run(["noctalia", "plugins", "lint", str(plugin)], check=True)
 print("Manifest, catalog, translation, and font license checks passed")
