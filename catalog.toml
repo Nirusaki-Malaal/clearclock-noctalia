@@ -1,0 +1,10 @@
+[[plugin]]
+id = "nirusaki/clearclock"
+name = "ClearClock"
+version = "1.0.0"
+plugin_api = 19
+author = "Nirusaki; original design by qewer33"
+license = "GPL-3.0-or-later"
+icon = "clock"
+description = "ClearClock: a bold clock, script weekday overlay, and spaced date."
+tags = ["clock", "desktop", "date", "typography"]

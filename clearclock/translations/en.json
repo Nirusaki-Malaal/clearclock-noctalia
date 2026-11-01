@@ -1,0 +1,23 @@
+{
+  "settings.clockUse24hFormat.label": "Use 24-hour time",
+  "settings.clockShowSeconds.label": "Show seconds",
+  "settings.clockSeparator.label": "Time separator",
+  "settings.timezone.label": "Time zone (empty = system local)",
+  "settings.clockFontColor.label": "Clock color",
+  "settings.clockFontFamily.label": "Clock font (ccdefault = Outfit)",
+  "settings.clockBoldText.label": "Bold clock",
+  "settings.clockFontSize.label": "Clock font size",
+  "settings.showDayDisplay.label": "Show weekday overlay",
+  "settings.dayFontColor.label": "Weekday color",
+  "settings.dayFontFamily.label": "Weekday font (ccdefault = Smooch)",
+  "settings.dayBoldText.label": "Bold weekday",
+  "settings.dayFontSize.label": "Weekday font size",
+  "settings.showDateDisplay.label": "Show date",
+  "settings.dateCustomDateFormat.label": "Date format (strftime tokens)",
+  "settings.dateFontColor.label": "Date color",
+  "settings.dateFontFamily.label": "Date font (ccdefault = Outfit)",
+  "settings.dateBoldText.label": "Bold date",
+  "settings.dateFontSize.label": "Date font size",
+  "settings.dateLetterSpacing.label": "Date letter spacing",
+  "settings.dateGap.label": "Gap below clock"
+}

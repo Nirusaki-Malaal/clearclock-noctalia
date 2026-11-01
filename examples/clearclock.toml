@@ -1,0 +1,24 @@
+# Merge into ~/.config/noctalia/*.toml; preserve your other widgets and order.
+# Enable the plugin first: noctalia msg plugins enable nirusaki/clearclock
+[desktop_widgets]
+enabled = true
+# If widget_order is already configured, append "clearclock" to that list.
+
+[desktop_widgets.widget.clearclock]
+type = "nirusaki/clearclock:desktop"
+output = "eDP-1"
+cx = 768.0
+cy = 400.0
+box_width = 700.0
+box_height = 300.0
+rotation = 0.0
+
+[desktop_widgets.widget.clearclock.settings]
+background = false
+clockUse24hFormat = true
+clockShowSeconds = false
+clockSeparator = "."
+showDayDisplay = true
+showDateDisplay = true
+dateCustomDateFormat = "%-d %B %Y"
+timezone = ""

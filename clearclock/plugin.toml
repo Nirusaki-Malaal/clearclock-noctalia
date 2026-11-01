@@ -1,0 +1,149 @@
+id = "nirusaki/clearclock"
+name = "ClearClock"
+version = "1.0.0"
+plugin_api = 19
+author = "Nirusaki; original design by qewer33"
+license = "GPL-3.0-or-later"
+icon = "clock"
+description = "ClearClock: a bold clock, script weekday overlay, and spaced date."
+tags = ["clock", "desktop", "date", "typography"]
+
+[[desktop_widget]]
+id = "desktop"
+entry = "desktop.luau"
+
+[[desktop_widget.setting]]
+key = "clockUse24hFormat"
+type = "bool"
+label_key = "settings.clockUse24hFormat.label"
+default = true
+
+[[desktop_widget.setting]]
+key = "clockShowSeconds"
+type = "bool"
+label_key = "settings.clockShowSeconds.label"
+default = false
+
+[[desktop_widget.setting]]
+key = "clockSeparator"
+type = "string"
+label_key = "settings.clockSeparator.label"
+default = "."
+
+[[desktop_widget.setting]]
+key = "timezone"
+type = "string"
+label_key = "settings.timezone.label"
+default = ""
+
+[[desktop_widget.setting]]
+key = "clockFontColor"
+type = "color"
+label_key = "settings.clockFontColor.label"
+default = "#ffffff"
+
+[[desktop_widget.setting]]
+key = "clockFontFamily"
+type = "string"
+label_key = "settings.clockFontFamily.label"
+default = "ccdefault"
+
+[[desktop_widget.setting]]
+key = "clockBoldText"
+type = "bool"
+label_key = "settings.clockBoldText.label"
+default = true
+
+[[desktop_widget.setting]]
+key = "clockFontSize"
+type = "int"
+label_key = "settings.clockFontSize.label"
+default = 220
+min = 24
+max = 400
+
+[[desktop_widget.setting]]
+key = "showDayDisplay"
+type = "bool"
+label_key = "settings.showDayDisplay.label"
+default = true
+
+[[desktop_widget.setting]]
+key = "dayFontColor"
+type = "color"
+label_key = "settings.dayFontColor.label"
+default = "#5e4573"
+
+[[desktop_widget.setting]]
+key = "dayFontFamily"
+type = "string"
+label_key = "settings.dayFontFamily.label"
+default = "ccdefault"
+
+[[desktop_widget.setting]]
+key = "dayBoldText"
+type = "bool"
+label_key = "settings.dayBoldText.label"
+default = false
+
+[[desktop_widget.setting]]
+key = "dayFontSize"
+type = "int"
+label_key = "settings.dayFontSize.label"
+default = 100
+min = 16
+max = 300
+
+[[desktop_widget.setting]]
+key = "showDateDisplay"
+type = "bool"
+label_key = "settings.showDateDisplay.label"
+default = true
+
+[[desktop_widget.setting]]
+key = "dateCustomDateFormat"
+type = "string"
+label_key = "settings.dateCustomDateFormat.label"
+default = "%-d %B %Y"
+
+[[desktop_widget.setting]]
+key = "dateFontColor"
+type = "color"
+label_key = "settings.dateFontColor.label"
+default = "#ffffff"
+
+[[desktop_widget.setting]]
+key = "dateFontFamily"
+type = "string"
+label_key = "settings.dateFontFamily.label"
+default = "ccdefault"
+
+[[desktop_widget.setting]]
+key = "dateBoldText"
+type = "bool"
+label_key = "settings.dateBoldText.label"
+default = false
+
+[[desktop_widget.setting]]
+key = "dateFontSize"
+type = "int"
+label_key = "settings.dateFontSize.label"
+default = 24
+min = 8
+max = 100
+
+[[desktop_widget.setting]]
+key = "dateLetterSpacing"
+type = "int"
+label_key = "settings.dateLetterSpacing.label"
+default = 2
+min = 0
+max = 20
+
+[[desktop_widget.setting]]
+key = "dateGap"
+type = "int"
+label_key = "settings.dateGap.label"
+default = -20
+min = -100
+max = 100
