@@ -154,7 +154,9 @@ def render(request, destination):
         if kind == "clock" and request.get("gradient"):
             ink = gradient
         else:
-            if kind == "day" and request.get("gradient"):
+            if kind == "day" and request.get("fontGlass"):
+                color = readable(primary, samples, 3)
+            elif kind == "day" and request.get("gradient"):
                 color = readable(stops[1], stops, 4.5)
             elif kind == "date" and request.get("gradient"):
                 color = readable(primary, samples, 4.5)
@@ -167,7 +169,7 @@ def render(request, destination):
             frost = ImageEnhance.Color(frost).enhance(.65).convert("RGBA")
             # Keep the local wallpaper visible inside the letters, softened and
             # tinted by the same adaptive ink as the opaque gradient mode.
-            frost = Image.blend(frost, ink.convert("RGBA"), .42+strength*.35)
+            frost = Image.blend(frost, ink.convert("RGBA"), .55+strength*.25)
             sheen = Image.new("RGBA", (1,height))
             sheen.putdata([(255,255,255,round(65*(1-y/max(1,height-1))**2)) for y in range(height)])
             frost = Image.alpha_composite(frost, sheen.resize((width,height)))
@@ -185,6 +187,13 @@ def render(request, destination):
             canvas = Image.alpha_composite(canvas, Image.composite(
                 Image.new("RGBA",canvas.size,(15,24,35,100)), Image.new("RGBA",canvas.size),lowlight))
         else:
+            if kind == "day" and request.get("fontGlass"):
+                # The script crosses both glass digits and open wallpaper.
+                # A fine opposite-tone edge keeps it readable over both.
+                edge = ImageChops.subtract(mask.filter(ImageFilter.MaxFilter(2*scale+1)), mask)
+                rim = (10,16,24,150) if luminance(color) > .45 else (255,255,255,150)
+                canvas = Image.alpha_composite(canvas, Image.composite(
+                    Image.new("RGBA",canvas.size,rim),Image.new("RGBA",canvas.size),edge))
             canvas = Image.composite(ink, canvas, mask)
     destination = Path(destination)
     temporary = destination.with_suffix(".tmp")
