@@ -20,8 +20,16 @@ for service in manifest.get("service", []):
 translations = json.loads((plugin / "translations/en.json").read_text())
 settings = entry["setting"]
 assert len({s["key"] for s in settings}) == len(settings)
+def has_key(data, dotted_key):
+    current = data
+    for part in dotted_key.split("."):
+        if not isinstance(current, dict) or part not in current:
+            return False
+        current = current[part]
+    return True
+
 for setting in settings:
-    assert setting["label_key"] in translations
+    assert has_key(translations, setting["label_key"])
     if "min" in setting:
         assert setting["min"] <= setting["default"] <= setting["max"]
 assert len(list((plugin / "fonts").glob("*.ttf"))) == 3

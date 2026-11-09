@@ -7,5 +7,5 @@ author = "Nirusaki; original design by qewer33"
 license = "GPL-3.0-or-later"
 icon = "clock"
 description = "ClearClock: a bold clock, script weekday overlay, and spaced date."
-tags = ["clock", "desktop", "date", "typography"]
+tags = ["clock", "desktop", "time", "theming"]
 dependencies = ["python3", "python-pillow"]
