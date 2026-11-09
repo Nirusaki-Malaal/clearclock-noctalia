@@ -8,19 +8,20 @@ enabled = true
 type = "nirusaki/clearclock:desktop"
 output = "eDP-1"
 cx = 768.0
-cy = 400.0
+cy = 456.0
 box_width = 700.0
 box_height = 300.0
 rotation = 0.0
 
+# Preset 1: Frosted Glass Font (translucent beveled digits as seen in the screenshot)
 [desktop_widgets.widget.clearclock.settings]
 background = false
 adaptiveColors = true
-adaptiveGradients = true
-frostedFont = false
+adaptiveGradients = false
+frostedFont = true
 frostedGlass = false
-fontGlassStrength = 0.55
-glassStrength = 0.5
+fontGlassStrength = 0.0
+clockFontSize = 218
 clockUse24hFormat = true
 clockShowSeconds = false
 clockSeparator = "."
@@ -28,3 +29,20 @@ showDayDisplay = true
 showDateDisplay = true
 dateCustomDateFormat = "%-d %B %Y"
 timezone = ""
+
+# Preset 2: Adaptive Wallpaper Gradient (opaque digits sampling wallpaper colors)
+# [desktop_widgets.widget.clearclock.settings]
+# background = false
+# adaptiveColors = true
+# adaptiveGradients = true
+# frostedFont = false
+# frostedGlass = false
+# fontGlassStrength = 0.55
+# glassStrength = 0.5
+# clockUse24hFormat = true
+# clockShowSeconds = false
+# clockSeparator = "."
+# showDayDisplay = true
+# showDateDisplay = true
+# dateCustomDateFormat = "%-d %B %Y"
+# timezone = ""
